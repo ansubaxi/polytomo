@@ -1,30 +1,32 @@
 #ifndef VISUALIZERX_H
 #define VISUALIZERX_H
 
-#include <vector>
-#include <string>
-#include <iostream>
+#include <vtkSmartPointer.h>
+#include <vtkRenderer.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkActor.h>
+#include <vtkColorTransferFunction.h>
+#include <vtkLookupTable.h>
 
-/**
- * Class for handling visualization tasks including surface visualization,
- * Z-exaggeration transform, and handling colormaps.
- */
 class VisualizerX {
 public:
-    // New Member Variables
-    float zExaggeration;
-    std::vector<std::string> colorMap;
-
-    // Constructor
     VisualizerX();
+    ~VisualizerX();
 
-    // Method declarations
-    void setZExaggeration(float exaggeration);
-    void visualizeSurface(const std::vector<float>& data);
-    void applyColormap(const std::string& mapName);
-
+    void SetZExaggeration(double factor);
+    void VisualizeSurface(vtkSmartPointer<vtkPolyData> surfaceData);
+    void SetColorMap(const std::string& colorMapName);
+    
 private:
-    void loadDefaultColormap();
+    vtkSmartPointer<vtkRenderer> renderer;
+    vtkSmartPointer<vtkRenderWindow> renderWindow;
+    vtkSmartPointer<vtkRenderWindowInteractor> interactor;
+    vtkSmartPointer<vtkPolyDataMapper> mapper;
+    vtkSmartPointer<vtkActor> actor;
+    vtkSmartPointer<vtkColorTransferFunction> colorTransferFunction;
+    vtkSmartPointer<vtkLookupTable> lookupTable;
 };
 
 #endif // VISUALIZERX_H
